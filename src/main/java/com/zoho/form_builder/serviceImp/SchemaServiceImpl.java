@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SchemaService implements SchemaServiceImpl {
+public class SchemaServiceImpl implements SchemaService {
     @Autowired
     private SchemaRepository schemaRepository;
     @Override
