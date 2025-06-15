@@ -1,6 +1,8 @@
-package com.zoho.form_builder.serviceImpl;
+package com.zoho.form_builder.service;
 
 import com.zoho.form_builder.modal.Schema;
+
+import java.util.List;
 
 public interface SchemaService{
     public Schema getSchemaByName(String name) throws Exception;

@@ -1,9 +1,9 @@
-package com.zoho.form_builder.service;
+package com.zoho.form_builder.serviceImpl;
 
 import com.zoho.form_builder.modal.FormData;
 import com.zoho.form_builder.modal.Schema;
 import com.zoho.form_builder.repository.FormDataRepository;
-import com.zoho.form_builder.serviceImpl.FormDataServiceImpl;
+import com.zoho.form_builder.service.FormDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

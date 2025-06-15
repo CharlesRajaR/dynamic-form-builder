@@ -1,10 +1,12 @@
-package com.zoho.form_builder.service;
+package com.zoho.form_builder.serviceImpl;
 
 import com.zoho.form_builder.modal.Schema;
 import com.zoho.form_builder.repository.SchemaRepository;
-import com.zoho.form_builder.serviceImpl.SchemaServiceImpl;
+import com.zoho.form_builder.service.SchemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SchemaServiceImpl implements SchemaService {
@@ -34,4 +36,9 @@ public class SchemaServiceImpl implements SchemaService {
         schemaRepository.deleteById(id);
         return "deleted schema";
     }
+
+    public List<Schema> findAllSchema(){
+        return schemaRepository.findAll();
+    }
+
 }

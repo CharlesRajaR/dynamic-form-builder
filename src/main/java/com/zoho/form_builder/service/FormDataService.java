@@ -1,9 +1,8 @@
-package com.zoho.form_builder.serviceImpl;
+package com.zoho.form_builder.service;
 
 import com.zoho.form_builder.modal.FormData;
 import com.zoho.form_builder.modal.Schema;
 
-import java.text.Normalizer;
 import java.util.List;
 
 public interface FormDataService {
