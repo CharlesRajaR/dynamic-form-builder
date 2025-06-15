@@ -5,11 +5,13 @@ import com.zoho.form_builder.modal.Schema;
 import com.zoho.form_builder.repository.FormDataRepository;
 import com.zoho.form_builder.service.FormDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Service
 public class FormDataServiceImpl implements FormDataService {
     @Autowired
     private FormDataRepository formDataRepository;
