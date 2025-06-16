@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping
 public class MainController {
@@ -47,7 +48,7 @@ public class MainController {
     public ResponseEntity<Schema> storeSchema(@RequestBody Schema schema) throws Exception {
         Schema schema1 = schemaService.storeSchema(schema);
 
-        return new ResponseEntity<>(schema1, HttpStatus.OK);
+        return new ResponseEntity<>(schema1, HttpStatus.CREATED);
     }
 
     @PostMapping("/store-form-data/{schemaName}")
@@ -60,6 +61,6 @@ public class MainController {
 
         FormData savedFormData = formDataService.storeFormData(formData);
 
-        return new ResponseEntity<>(savedFormData, HttpStatus.OK);
+        return new ResponseEntity<>(savedFormData, HttpStatus.CREATED);
     }
 }
