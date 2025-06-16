@@ -1,8 +1,7 @@
 package com.zoho.form_builder.modal;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -11,11 +10,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 import java.util.Map;
 
 @Document(collection = "formSubmissions")
-@Getter
-@Setter
+@Data
 public class FormData {
     @MongoId
-    private Long id;
+    private String id;
     @DBRef
     private Schema schema;
     private Map<String, String> fieldWithValues;

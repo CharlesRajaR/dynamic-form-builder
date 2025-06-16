@@ -23,8 +23,16 @@ public class FormDataServiceImpl implements FormDataService {
 
     @Override
     public FormData storeFormData(FormData formData) throws Exception {
-        Map<String, Map<String, String>> inputSchema = formData.getSchema().getInputFields();
+        Map<String, Map<String, String>> inputSchema = formData.getSchema().getProperties();
+        List<String> requiredFields = formData.getSchema().getRequired();
+
         Map<String, String> fieldsWithValues = formData.getFieldWithValues();
+
+        for(String required: requiredFields){
+            if(fieldsWithValues.get(required) == null){
+                throw new Exception("the field "+required+" is required");
+            }
+        }
 
         for(Map.Entry entry: inputSchema.entrySet()){
             String field = (String) entry.getKey();
@@ -32,9 +40,9 @@ public class FormDataServiceImpl implements FormDataService {
             // value provided in the form for the input field
             String value = fieldsWithValues.get(field);
 
-            if(value == null && constraints.get("requried").equals("true")){
-                throw new Exception(value+" is not found");
-            }
+//            if(value == null && requiredFields.contains(field)){
+//                throw new Exception(value+" is not found");
+//            }
 
             String type = constraints.get("type");
 
@@ -70,7 +78,7 @@ public class FormDataServiceImpl implements FormDataService {
     }
 
     @Override
-    public FormData getFormDataById(Long id) throws Exception {
+    public FormData getFormDataById(String id) throws Exception {
         Optional<FormData> formData = formDataRepository.findById(id);
         if(formData.isEmpty()){
             throw new Exception("form data not found");
@@ -79,7 +87,7 @@ public class FormDataServiceImpl implements FormDataService {
     }
 
     @Override
-    public String deleteFormDataById(Long id) {
+    public String deleteFormDataById(String id) {
         formDataRepository.deleteById(id);
         return "form is deleted successfully";
     }

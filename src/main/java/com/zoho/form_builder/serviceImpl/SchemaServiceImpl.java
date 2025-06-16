@@ -16,7 +16,7 @@ public class SchemaServiceImpl implements SchemaService {
     public Schema getSchemaByName(String name) throws Exception {
         Schema schema = schemaRepository.findByName(name);
         if(schema == null){
-            throw new Exception("Schema not found");
+            throw new Exception("Schema not found with name: "+name);
         }
         return schema;
     }
@@ -24,11 +24,11 @@ public class SchemaServiceImpl implements SchemaService {
     @Override
     public Schema storeSchema(Schema schema) throws Exception {
         Schema schema1 = schemaRepository.findByName(schema.getName());
-        if(schema1 != null){
-            throw new Exception("schema already found");
+        if(schema1 != null) {
+            throw new Exception("schema already found with name: " + schema.getName());
         }
-        schema1 = schemaRepository.insert(schema);
-        return schema1;
+        return schemaRepository.save(schema);
+      
     }
 
     @Override

@@ -2,8 +2,8 @@ package com.zoho.form_builder.controller;
 
 import com.zoho.form_builder.modal.FormData;
 import com.zoho.form_builder.modal.Schema;
-import com.zoho.form_builder.service.FormDataService;
-import com.zoho.form_builder.service.SchemaService;
+import com.zoho.form_builder.serviceImpl.FormDataServiceImpl;
+import com.zoho.form_builder.serviceImpl.SchemaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ import java.util.Map;
 @RequestMapping
 public class MainController {
     @Autowired
-    private SchemaService schemaService;
+    private SchemaServiceImpl schemaService;
     @Autowired
-    private FormDataService formDataService;
+    private FormDataServiceImpl formDataService;
 
     @GetMapping("/get-all-schema")
     public ResponseEntity<List<Schema>> getAllSchema(){
@@ -44,7 +44,7 @@ public class MainController {
     }
 
     @PostMapping("/store/schema")
-    public ResponseEntity<Schema> storeSchema(Schema schema) throws Exception {
+    public ResponseEntity<Schema> storeSchema(@RequestBody Schema schema) throws Exception {
         Schema schema1 = schemaService.storeSchema(schema);
 
         return new ResponseEntity<>(schema1, HttpStatus.OK);

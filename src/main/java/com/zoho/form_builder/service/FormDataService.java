@@ -8,6 +8,6 @@ import java.util.List;
 public interface FormDataService {
     public List<FormData> getFormDataBySchema(Schema schema);
     public FormData storeFormData(FormData formData) throws Exception;
-    public FormData getFormDataById(Long id) throws Exception;
-    public String deleteFormDataById(Long id);
+    public FormData getFormDataById(String id) throws Exception;
+    public String deleteFormDataById(String id);
 }
