@@ -40,41 +40,62 @@ public class FormDataServiceImpl implements FormDataService {
             // value provided in the form for the input field
             String value = fieldsWithValues.get(field);
 
-//            if(value == null && requiredFields.contains(field)){
-//                throw new Exception(value+" is not found");
-//            }
-
-            String type = constraints.get("type");
-
-            if(value != null && type.equalsIgnoreCase("number")){
-                try {
-                    Integer.parseInt(value);
-                }
-                catch (NumberFormatException e){
-                    throw new Exception("not a valid number");
-                }
+            if(constraints.containsKey("type")){
+                typeValidator(constraints.get("type"), value);
             }
 
-            else if (value != null && type.equalsIgnoreCase("email")) {
-              String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-                if (!value.matches(regex)) {
-                     throw new Exception("email is not valid");
-                }
+            if(constraints.containsKey("min") && value != null){
+                minValidator(constraints.get("min"), value);
             }
 
-            else if (value != null && type.equalsIgnoreCase("password")) {
-                String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&...])[A-za-z\\d@$!...]{8,50}$";
-
-                if(!value.matches(passwordRegex)){
-                    throw new Exception("password is not valid");
-                }
-            }
-            else{
-                //default string
+            if(constraints.containsKey("max") && value != null){
+                maxValidator(constraints.get("max"), value);
             }
 
         }
         return formDataRepository.insert(formData);
+    }
+
+    private void minValidator(String min, String value) throws Exception {
+        int minimum = Integer.parseInt(min);
+        if(value.length() < minimum){
+            throw new Exception("minimum length required is"+minimum);
+        }
+    }
+    private void maxValidator(String max, String value) throws Exception {
+        int maximum = Integer.parseInt(max);
+        if(value.length() > maximum){
+            throw new Exception("maximum length  is"+maximum);
+        }
+    }
+
+    private void typeValidator(String type, String value)throws Exception{
+        if(value != null && type.equalsIgnoreCase("number") || type.equalsIgnoreCase("integer")){
+            try {
+                Integer.parseInt(value);
+            }
+            catch (NumberFormatException e){
+                throw new Exception("not a valid number");
+            }
+        }
+
+        else if (value != null && type.equalsIgnoreCase("email")) {
+            String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+            if (!value.matches(regex)) {
+                throw new Exception("email is not valid");
+            }
+        }
+
+        else if (value != null && type.equalsIgnoreCase("password")) {
+            String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&...])[A-za-z\\d@$!...]{8,50}$";
+
+            if(!value.matches(passwordRegex)){
+                throw new Exception("password is not valid");
+            }
+        }
+        else{
+            //default string
+        }
     }
 
     @Override
