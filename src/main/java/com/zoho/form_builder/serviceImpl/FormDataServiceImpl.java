@@ -87,7 +87,7 @@ public class FormDataServiceImpl implements FormDataService {
         }
 
         else if (value != null && type.equalsIgnoreCase("password")) {
-            String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&...])[A-za-z\\d@$!...]$";
+            String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).*$";
 
             if(!value.matches(passwordRegex)){
                 throw new Exception("password is not valid");
