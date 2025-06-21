@@ -40,7 +40,7 @@ public class FormDataServiceImpl implements FormDataService {
             // value provided in the form for the input field
             String value = fieldsWithValues.get(field);
 
-            if(constraints.containsKey("type")){
+            if(constraints.containsKey("type") && value != null){
                 typeValidator(constraints.get("type"), value);
             }
 
@@ -87,7 +87,7 @@ public class FormDataServiceImpl implements FormDataService {
         }
 
         else if (value != null && type.equalsIgnoreCase("password")) {
-            String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&...])[A-za-z\\d@$!...]{8,50}$";
+            String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&...])[A-za-z\\d@$!...]$";
 
             if(!value.matches(passwordRegex)){
                 throw new Exception("password is not valid");
