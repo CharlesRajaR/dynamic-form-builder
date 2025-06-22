@@ -52,17 +52,40 @@ public class FormDataServiceImpl implements FormDataService {
                 maxValidator(constraints.get("max"), value);
             }
 
+            if(constraints.containsKey("minLength") && value != null){
+                minLengthValidator(constraints.get("minLength"), value);
+            }
+
+            if(constraints.containsKey("maxLength") && value != null){
+                maxLengthValidator(constraints.get("maxLength"), value);
+            }
+
         }
         return formDataRepository.insert(formData);
     }
 
     private void minValidator(String min, String value) throws Exception {
         int minimum = Integer.parseInt(min);
+        int value1 = Integer.parseInt(value);
+        if(value1 < minimum){
+            throw new Exception("minimum number must be: "+minimum);
+        }
+    }
+    private void maxValidator(String max, String value) throws Exception {
+        int maximum = Integer.parseInt(max);
+        int value1 = Integer.parseInt(value);
+
+        if(value1 > maximum){
+            throw new Exception("maximum number must be: "+maximum);
+        }
+    }
+    private void minLengthValidator(String min, String value) throws Exception {
+        int minimum = Integer.parseInt(min);
         if(value.length() < minimum){
             throw new Exception("minimum length required is"+minimum);
         }
     }
-    private void maxValidator(String max, String value) throws Exception {
+    private void maxLengthValidator(String max, String value) throws Exception {
         int maximum = Integer.parseInt(max);
         if(value.length() > maximum){
             throw new Exception("maximum length  is"+maximum);
