@@ -1,5 +1,8 @@
 package com.zoho.form_builder.serviceImpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.zoho.form_builder.modal.FormData;
 import com.zoho.form_builder.modal.Schema;
 import com.zoho.form_builder.repository.FormDataRepository;
@@ -43,13 +46,23 @@ public class FormDataServiceImpl implements FormDataService {
             if(constraints.containsKey("type") && value != null){
                 typeValidator(constraints.get("type"), value);
             }
+            
+            String type = constraints.get("type");
 
-            if(constraints.containsKey("min") && value != null){
+            if(type == "number" || type == "integer" && constraints.containsKey("min") && value != null){
                 minValidator(constraints.get("min"), value);
             }
 
-            if(constraints.containsKey("max") && value != null){
+            if(type == "number" || type == "integer" && constraints.containsKey("max") && value != null){
                 maxValidator(constraints.get("max"), value);
+            }
+
+            if(type == "date" && constraints.containsKey("min") && value != null){
+                minDateValidator(constraints.get("min"), value);
+            }
+
+            if(type == "date" && constraints.containsKey("max") && value != null){
+                maxDateValidator(constraints.get("max"), value);
             }
 
             if(constraints.containsKey("minLength") && value != null){
@@ -63,7 +76,27 @@ public class FormDataServiceImpl implements FormDataService {
         }
         return formDataRepository.insert(formData);
     }
+    
+    private void minDateValidator(String min, String value) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
+        Date minDate = sdf2.parse(min);
+        Date date = sdf.parse(value);
+        if(date.compareTo(minDate) < 0){
+            throw new Exception("minimum date must be: "+minDate);
+        }
+    }
+    private void maxDateValidator(String max, String value) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date maxDate = sdf2.parse(max);
+        Date date = sdf.parse(value);
+        if(date.compareTo(maxDate) > 0){
+            throw new Exception("maximum date must be: "+maxDate);
+        }
+    }
     private void minValidator(String min, String value) throws Exception {
         int minimum = Integer.parseInt(min);
         int value1 = Integer.parseInt(value);
@@ -115,6 +148,18 @@ public class FormDataServiceImpl implements FormDataService {
             if(!value.matches(passwordRegex)){
                 throw new Exception("password is not valid");
             }
+        }
+        else if(value != null && type.equalsIgnoreCase("date")){
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            sdf.setLenient(false); // Strict parsing
+
+            try{
+                Date inputDate = sdf.parse(value);
+            }
+            catch(ParseException e){
+                throw new Exception("date is invalid");
+            } 
+           
         }
         else{
             //default string
